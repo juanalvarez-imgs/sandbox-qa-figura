@@ -259,7 +259,8 @@ body.iso{background:var(--anatomy-card)}
 .sq-panel>.sq-plist{display:none}
 .sq-pnav{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
 .sq-pnav button{padding:7px 10px;font-size:12px}
-@media (max-width:700px){.sq-bar{right:12px;left:12px}.sq-hint{display:none}.sq-panel{left:12px;right:12px;top:auto;bottom:112px;width:auto;max-height:40%}.sq-panel>.sq-plist{display:none}}
+@media (max-width:900px){.sq-hint{display:none}.sq-bar{right:16px;left:16px;bottom:12px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}.sq-bar::-webkit-scrollbar{display:none}.sq-bar button{flex:none;padding:8px 11px;font-size:12.5px}.iso-plate-corner[data-corner="readout"]{right:auto;left:16px;bottom:62px}.iso-plate-corner[data-corner="fig"]{left:16px}.iso-plate-corner[data-corner="title"]{left:16px}}
+@media (max-width:700px){.sq-panel{left:12px;right:12px;top:auto;bottom:96px;width:auto;max-width:none;max-height:44%;padding:12px}.sq-panel .sq-psteps{overflow:auto;min-height:0}.sq-panel>.sq-plist{display:none}.sq-panel h3{font-size:14px}.sq-panel p,.sq-psteps li{font-size:12px}.sq-tip{display:none}}
 @media (prefers-reduced-motion:reduce){.sq-panel,.sq-tip{transition:none}}
 </style><figure class="iso-figure"><div class="iso-plate sq-wrap"><div class="iso-plate-corners" aria-hidden="true"><span class="iso-plate-corner" data-corner="fig">Fig 1</span><span class="iso-plate-corner" data-corner="title">Revisión de calidad en sandbox</span><span class="iso-plate-corner" data-corner="readout" data-readout>paso - · 0/14 clasificados</span></div><div class="iso-stage" tabindex="0" role="group" aria-label="Línea de revisión de calidad: flechas cambian de sección, Escape vuelve a la vista general, espacio pausa, arrastrar gira la cámara" aria-valuetext=""><svg xmlns="http://www.w3.org/2000/svg" class="iso-svg" viewBox="0 0 860 470" role="img" aria-label="Una línea de revisión de calidad dentro de un tablero que es el sandbox. Cada ficha es un requisito: cae de la tolva de documentos, el QA la aprueba, se recorre, se le crean casos, pasa por el marco de pruebas de la aplicación, el QA revisa el resultado y se clasifica en verificado, hallazgo, parcial o sin verificar. El dial marca la fiabilidad."><g data-world></g></svg></div><aside class="sq-panel" data-panel aria-label="Explicación de la sección"><h3 data-ptitle></h3><p data-pnote></p><ol class="sq-psteps" data-psteps></ol><ul class="sq-plist" data-plist></ul><div class="sq-pnav"><button type="button" data-prev>‹ Anterior</button><button type="button" data-next>Siguiente ›</button><button type="button" data-home>Vista general</button></div></aside><div class="sq-tip" data-tip role="tooltip"></div><div class="sq-hint">Cursor: ver pieza · clic: acercar · arrastrar: girar</div><nav class="sq-bar sq-steps" aria-label="Pasos de la revisión"><button type="button" data-step="1" aria-pressed="false" title="El cliente mete su producto con la documentación al Sandbox QA. Dentro, el agente lee las actas, páginas y diseños y propone los requisitos, cada uno con su cita. El QA aprueba los que cuentan.">1 Requisitos</button><button type="button" data-step="2" aria-pressed="false" title="Mapea el sitio con un navegador real, mide y captura pantallas en escritorio y móvil.">2 Recorrido</button><button type="button" data-step="3" aria-pressed="false" title="Diseña los casos y sus scripts. Los datos que crea quedan marcados como QA.">3 Casos de uso</button><button type="button" data-step="4" aria-pressed="false" title="Corre los casos por rol, repara una vez los scripts que se rompen y repite los fallos antes de reportarlos.">4 Ejecución</button><button type="button" data-step="5" aria-pressed="false" title="Hallazgos con evidencia y un veredicto por cada requisito. Un QA revisa cada hallazgo antes de que llegue al cliente.">5 Resultados</button><button type="button" data-step="6" aria-pressed="false" title="Cuando el cliente corrige algo, se vuelve a verificar sin tiempo adicional.">6 Seguimiento</button><button type="button" class="sq-play" data-play aria-pressed="false">Pausar</button></nav><p class="sq-note" data-note aria-live="polite"></p></div><figcaption class="iso-legend"><span class="iso-keys"><span class="iso-key"><svg class="iso-swatch" data-mark="lit" viewBox="0 0 16 10" aria-hidden="true"><path d="M2 4.5 8 1.5 14 4.5 14 6 8 9 2 6Z"/><path class="iso-swatch-crease" d="M2 4.5 8 7.5 14 4.5"/></svg>Aguja y luz: fiabilidad y paso activo</span><span class="iso-key"><svg class="iso-swatch" data-mark="raised" viewBox="0 0 16 10" aria-hidden="true"><path d="M2 4.5 8 1.5 14 4.5 14 6 8 9 2 6Z"/><path class="iso-swatch-crease" d="M2 4.5 8 7.5 14 4.5"/></svg>Ficha: un requisito del proyecto</span></span><span class="iso-caption">El tablero completo es el sandbox: el sistema de QA con su agente y la aplicación que revisa funcionan dentro, y en producción el agente nunca envía, guarda, compra ni borra nada. Corrida de ejemplo con 14 requisitos: 9 verificados, 3 con hallazgo, 1 parcial y 1 sin verificar. La fiabilidad es el porcentaje de requisitos con veredicto (verificados o con hallazgo) sobre el total: 12 de 14, 86 %. Ilustra el método; no es una medición de un cliente. El agente no certifica que el producto esté libre de errores.</span></figcaption></figure></main><script type="module">const AZIMUTH = 45;
 const ELEVATION = 30;
@@ -1413,13 +1414,24 @@ const svg = world.ownerSVGElement;
 const stage = svg.closest(".iso-stage");
 const plateEl = stage.closest(".sq-wrap");
 let FIT;
+const FIT_PTS = () => [[-172, -40, -12], [-172, 40, -12], [132, -80, -17], [132, 80, -17], [-132, 80, -17], [-132, -80, 56], [132, 80, 56], [DIAL[0], DIAL[1], DIAL_TOP + 4]];
 function fitView() {
   W0 = stage.clientWidth || 860; H0 = stage.clientHeight || 470;
-  FIT = fitProjection([[-172, -40, -12], [-172, 40, -12], [132, -80, -17], [132, 80, -17], [-132, 80, -17], [-132, -80, 56], [132, 80, 56], [DIAL[0], DIAL[1], DIAL_TOP + 4]], W0, H0 * 0.84, { pad: 40, azimuth: AZ0, elevation: EL0 });
+  FIT = fitProjection(FIT_PTS(), W0, H0 * 0.84, { pad: 40, azimuth: AZ0, elevation: EL0 });
 }
 fitView();
 P = { origin: [W0 / 2, H0 / 2], scale: FIT.scale, azimuth: AZ0, elevation: EL0 };
 const HOME = { az: 62, el: 47, zoom: 1.2, fx: -14, fy: 0, fz: 8, shift: 0 };
+// la vista general se ajusta al ancho de la ventana: en pantallas angostas o verticales el tablero entra completo
+function fitHome() {
+  const Pm = { origin: [W0 / 2, H0 / 2], scale: FIT.scale, azimuth: HOME.az, elevation: HOME.el };
+  const f = iso([HOME.fx, HOME.fy, HOME.fz], Pm); let hw = 0, hh = 0;
+  for (const q of FIT_PTS()) { const o = iso(q, Pm); hw = Math.max(hw, Math.abs(o[0] - f[0])); hh = Math.max(hh, Math.abs(o[1] - f[1])); }
+  let z = Math.min(1.2, (W0 * 0.5) / (hw + 22));
+  if (W0 / H0 < 1.3) z = Math.min(z, (H0 * 0.4) / (hh + 22));
+  HOME.zoom = Math.max(0.45, +z.toFixed(3));
+}
+fitHome();
 const cam = { ...HOME }, tgt = { ...HOME }, vel = Object.fromEntries(Object.keys(HOME).map((n) => [n, 0]));
 const OM = 6.2;
 function stepCam(dt) {
@@ -1442,7 +1454,7 @@ function renderScene() {
   P = { origin: [W0 / 2, H0 / 2], scale: FIT.scale, azimuth: cam.az, elevation: cam.el };
   dvec = [Math.cos(A) * Math.cos(E), Math.sin(A) * Math.cos(E), Math.sin(E)];
   const z = cam.zoom, w = W0 / z, h = H0 / z, f = iso([cam.fx, cam.fy, cam.fz], P);
-  const cx = f[0] + (narrow() ? 0 : cam.shift * w), cy = f[1] + 0.05 * h;
+  const cx = f[0] + (narrow() ? 0 : cam.shift * w), cy = f[1] + 0.05 * h + (narrow() ? cam.shift * 1.3 * h : 0);
   const vx = cx - w / 2, vy = cy - h / 2;
   svg.setAttribute("viewBox", vx.toFixed(2) + " " + vy.toFixed(2) + " " + w.toFixed(2) + " " + h.toFixed(2));
   const azKey = cam.az.toFixed(2) + "/" + cam.el.toFixed(2) + "/" + FIT.scale.toFixed(3), vis = [], m = 30;
@@ -1628,7 +1640,7 @@ stage.addEventListener("keydown", (e) => {
   else if (e.key === "Escape") { e.preventDefault(); home(); }
   else if (e.key === " ") { e.preventDefault(); playing = !playing; syncPlay(); run(); }
 });
-new ResizeObserver(() => { fitView(); run(); }).observe(stage);
+new ResizeObserver(() => { fitView(); fitHome(); if (!sec) tgt.zoom = HOME.zoom; run(); }).observe(stage);
 new IntersectionObserver((entries) => { visible = entries[entries.length - 1].isIntersecting; if (visible) run(); }, { rootMargin: "120px 0px" }).observe(stage);
 if (still.matches) { T = T_FIX + 2; frac = 0.86; needleV = 0.86; }
 syncPlay(); draw(); renderScene();
